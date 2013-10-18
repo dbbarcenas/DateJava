@@ -20,8 +20,26 @@ private static final int[] monthDays = { 31, 28, 31, 30, 31, 30,
    31, 31, 30, 31, 30, 31 };
 private final int MIN_MONTH=1, MAX_MONTH=12, MIN_YEAR=1900, MAX_YEAR=2100, CURRENT_YEAR=2013;
 
+public Date() {
+  setMonth(1);
+  setDay(1);
+  setYear(2013);
+}
 
+public Date(int month, int day, int year) {
+  setMonth(month);
+  setDay(day);
+  setYear(year);
+}
 
+public Date(String month, int day, int year) {
+  setMonth(1);
+  setDay(day);
+  setYear(year);
+}
+
+public Date(int dayOfYear, int year) {
+}
 
 // Set the day; the value should be valid depending on the month; remember to check if it is a leap year   
 public void setDay( int dd )
@@ -100,10 +118,12 @@ private int convertToDayOfYear()
 //set month to 1 if monthName is invalid
 private void convertFromMonthName( String monthName )   
 {
-  //write the code for this method
+  for ( String aMonthName : Date.monthNames ) {
+    System.out.println(aMonthName.toString());
+  }
+  setMonth(1);
 } // end convertFromMonthName
 } // end class Date
-
 
 
 
