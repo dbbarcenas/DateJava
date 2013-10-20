@@ -24,30 +24,48 @@ private static final int[] monthDays = { 31, 28, 31, 30, 31, 30,
    31, 31, 30, 31, 30, 31 };
 private final int MIN_MONTH=1, MAX_MONTH=12, MIN_YEAR=1900, MAX_YEAR=2100, CURRENT_YEAR=2013;
 
+//Constructor Date setting day, month, and year 
 public Date() {
   setMonth(1);
   setDay(1);
   setYear(CURRENT_YEAR);
 }
 
+/*Constructor Date setting day, month, and year
+ * @param int month to set the month of the date
+ * @param int day to set the day of the date 
+ * @param int year to year to set the year of the date 
+ */
 public Date(int month, int day, int year) {
   setMonth(month);
   setDay(day);
   setYear(year);
 }
 
+/*
+ * Constructor Date setting monthName to convertFromMOnthName method, day, and year
+ * @param String monthName using the ConvertFromMonthName method to convert, and set it to setMonth
+ * @param int day to set the day of the date
+ * @param int year to set the year of the date 
+ */
 public Date(String monthNames, int day, int year) {
 	convertFromMonthName(monthNames);
   setDay(day);
   setYear(year);
 }
 
+/*
+ * Constructor Date setting the dayOfYear to convertFromDayOfYear method, and year
+ * @param int dayOfYear using the convertFromDayOfYear method to convert, and set it to setDay
+ * @param int year to set the year of the date 
+ */
 public Date(int dayOfYear, int year) {
 	convertFromDayOfYear(dayOfYear);
 	setYear(year); 
 }
 
 // Set the day; the value should be valid depending on the month; remember to check if it is a leap year   
+// @param dd to set the day of the date
 public void setDay( int dd )
 { 
 	boolean validDay = false;
@@ -125,6 +143,7 @@ private int convertToDayOfYear(int month,int day)
 	int dayOfYear = 0;
 	for(int i=0; i < (month - 1);i++)
 		dayOfYear += Date.monthDays[i];
+	dayOfYear += (leapYear() && month > 2) ? 1: 0;
 	dayOfYear += day;
 	
 	 //write the code for this method replacing the return statement by the proper value
@@ -145,12 +164,17 @@ private void convertFromMonthName( String monthName )
   setMonth(monthNum);
 } // end convertFromMonthName
 
+// Output date format MM/DD/YYY
 public String getSlashedDate() {
 	return this.month + "/" + this.day + "/" + this.year;
 }
+
+//output date format MonthName DD, YYYY
 public String getFullDate() {
 	return Date.monthNames[this.month-1] + " " + this.day + ", " + this.year;
 }
+
+//output date format DDD YYYY
 public String getYearDayDate() {
 	int ddd = convertToDayOfYear(month, day);
 	return ddd + " " + this.year;
