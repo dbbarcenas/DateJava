@@ -1,14 +1,18 @@
 package gc.comp1004.cs.Date;
 
+
 /*
  * Name : Durwin Barcenas
- * Date : Oct. 17, 2013 
+ * Date : Oct. 18, 2013 
  */
 //Exercise 8.14 Solution: Date.java
 //Date class definition
 
 
+
 public class Date
+
+
 {
 private int day; // day of the month
 private int month; // month in the year
@@ -23,7 +27,7 @@ private final int MIN_MONTH=1, MAX_MONTH=12, MIN_YEAR=1900, MAX_YEAR=2100, CURRE
 public Date() {
   setMonth(1);
   setDay(1);
-  setYear(2013);
+  setYear(CURRENT_YEAR);
 }
 
 public Date(int month, int day, int year) {
@@ -32,19 +36,28 @@ public Date(int month, int day, int year) {
   setYear(year);
 }
 
-public Date(String month, int day, int year) {
-  setMonth(1);
+public Date(String monthNames, int day, int year) {
+	convertFromMonthName(monthNames);
   setDay(day);
   setYear(year);
 }
 
 public Date(int dayOfYear, int year) {
+	convertFromDayOfYear(dayOfYear);
+	setYear(year); 
 }
 
 // Set the day; the value should be valid depending on the month; remember to check if it is a leap year   
 public void setDay( int dd )
 { 
-  
+	boolean validDay = false;
+	for (int i=0; i < Date.monthDays.length; i++)
+		if ( this.month == (i + 1) )
+			validDay = (dd <= Date.monthDays[i] && dd > 0) || (this.month == 2 && leapYear() && (dd <= 29 && dd > 0));
+	if (validDay)
+		this.day = dd;
+	else // month is invalid 
+	  throw new IllegalArgumentException( "Day must be valid. ");
 } // end method setDay
 
 // Set the month
@@ -107,10 +120,15 @@ private void convertFromDayOfYear( int ddd )
 // given a month and day converts it into the day of the year
 // called from the method that returns the date in the format DDD YYYY
 
-private int convertToDayOfYear()    
+private int convertToDayOfYear(int month,int day)    
 {
+	int dayOfYear = 0;
+	for(int i=0; i < (month - 1);i++)
+		dayOfYear += Date.monthDays[i];
+	dayOfYear += day;
+	
 	 //write the code for this method replacing the return statement by the proper value
-	   return 0; //
+	   return dayOfYear ; //
 } // end method convertToDayOfYear
 
 // convert from month name to month number
@@ -118,11 +136,25 @@ private int convertToDayOfYear()
 //set month to 1 if monthName is invalid
 private void convertFromMonthName( String monthName )   
 {
-  for ( String aMonthName : Date.monthNames ) {
-    System.out.println(aMonthName.toString());
+	int monthNum = 0;
+  for(int i=0; i< Date.monthNames.length; i++){
+	 if (Date.monthNames[i] == monthName) {
+		 monthNum = i + 1;
+	 }
   }
-  setMonth(1);
+  setMonth(monthNum);
 } // end convertFromMonthName
+
+public String getSlashedDate() {
+	return this.month + "/" + this.day + "/" + this.year;
+}
+public String getFullDate() {
+	return Date.monthNames[this.month-1] + " " + this.day + ", " + this.year;
+}
+public String getYearDayDate() {
+	int ddd = convertToDayOfYear(month, day);
+	return ddd + " " + this.year;
+}
 } // end class Date
 
 
